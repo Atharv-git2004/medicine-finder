@@ -3,78 +3,62 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import PharmacyCard from "../components/PharmacyCard";
 
+
 const SearchResults = () => {
   const location = useLocation();
-
-  // Get query param
   const queryParams = new URLSearchParams(location.search);
   const medicine = queryParams.get("medicine");
 
-  // Dummy data for UI
   const pharmacies = [
-    {
-      id: 1,
-      name: "City Care Pharmacy",
-      address: "Calicut",
-      distance: "1.2 km",
-      medicines: ["Paracetamol", "Dolo"],
-      available: true,
-    },
-    {
-      id: 2,
-      name: "HealthPlus Pharmacy",
-      address: "Kozhikode",
-      distance: "2.5 km",
-      medicines: ["Aspirin"],
-      available: false,
-    },
-    {
-      id: 3,
-      name: "MediLife Pharmacy",
-      address: "Malaparamba",
-      distance: "3 km",
-      medicines: ["Paracetamol", "Ibuprofen"],
-      available: true,
-    },
+    { id: 1, name: "City Care Pharmacy", address: "Calicut", distance: "1.2 km", medicines: ["Paracetamol", "Dolo"], available: true },
+    { id: 2, name: "HealthPlus Pharmacy", address: "Kozhikode", distance: "2.5 km", medicines: ["Aspirin"], available: false },
+    { id: 3, name: "MediLife Pharmacy", address: "Malaparamba", distance: "3 km", medicines: ["Paracetamol", "Ibuprofen"], available: true },
   ];
 
   return (
-    <Container className="mt-4">
-      {/* Header */}
-      <div className="mb-4">
-        <h3 className="fw-bold">
-          Search Results {medicine && `for "${medicine}"`}
-        </h3>
-        <p className="text-muted">
-          Showing nearby pharmacies with available stock
-        </p>
-      </div>
-
-      {/* Filter */}
-      <Row className="mb-4">
-        <Col md={4}>
-          <Form.Select>
-            <option>Sort by Distance</option>
-            <option>Sort by Availability</option>
-          </Form.Select>
-        </Col>
-      </Row>
-
-      {/* Results */}
-      <Row>
-        {pharmacies.length > 0 ? (
-          pharmacies.map((pharmacy) => (
-            <Col md={4} sm={6} xs={12} key={pharmacy.id}>
-              <PharmacyCard pharmacy={pharmacy} />
-            </Col>
-          ))
-        ) : (
-          <p className="text-center text-muted">
-            No pharmacies found
+    <div className="clay-results-bg">
+      <Container className="py-5">
+        {/* Header Section */}
+        <div className="clay-header-panel p-4 mb-5">
+          <h3 className="fw-bold text-primary">
+            Search Results {medicine && <span className="text-dark">for "{medicine}"</span>}
+          </h3>
+          <p className="text-muted mb-0">
+            Showing nearby pharmacies with available stock
           </p>
-        )}
-      </Row>
-    </Container>
+        </div>
+
+        {/* Filter Section */}
+        <Row className="mb-5 justify-content-start">
+          <Col md={4}>
+            <div className="clay-filter-container">
+              <Form.Select className="clay-select border-0 shadow-none">
+                <option>Sort by Distance</option>
+                <option>Sort by Availability</option>
+              </Form.Select>
+            </div>
+          </Col>
+        </Row>
+
+        {/* Results Grid */}
+        <Row>
+          {pharmacies.length > 0 ? (
+            pharmacies.map((pharmacy) => (
+              <Col md={4} sm={6} xs={12} key={pharmacy.id} className="mb-4">
+                {/* PharmacyCard now automatically inherits the clay style we made earlier */}
+                <PharmacyCard pharmacy={pharmacy} />
+              </Col>
+            ))
+          ) : (
+            <Col xs={12}>
+              <div className="clay-card p-5 text-center">
+                <p className="text-muted mb-0">No pharmacies found matching your search.</p>
+              </div>
+            </Col>
+          )}
+        </Row>
+      </Container>
+    </div>
   );
 };
 

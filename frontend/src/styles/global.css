@@ -1,4 +1,4 @@
-/* Reset & Base */
+/* 1. Reset & Attractive Base */
 * {
   margin: 0;
   padding: 0;
@@ -6,90 +6,577 @@
 }
 
 body {
+  /* A soft, colorful pastel gradient is the secret to making clay pop */
+  background: radial-gradient(circle at top left, #e0eafc, #f7f9fc 50%, #fff1f2 100%);
   font-family: "Poppins", sans-serif;
-  background-color: #f5f7fa;
-  color: #212529;
+  color: #444; /* Soften the text color for a modern feel */
+  min-height: 100vh;
   line-height: 1.6;
 }
 
-/* Links */
-a {
-  text-decoration: none !important;
-  color: inherit;
+/* 2. Global Claymorphic Scrollbar (Optional but cool) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: inset -2px -2px 5px rgba(0,0,0,0.05), inset 2px 2px 5px rgba(255,255,255,0.8);
 }
 
-/* Buttons */
-button {
-  border-radius: 8px !important;
+/* 3. Global Typography Changes */
+h1, h2, h3, h4, h5, h6 {
+  color: #2d3436;
+  letter-spacing: -0.5px; /* Tighter tracking for a premium look */
 }
 
-/* Utility Classes */
-.container {
-  max-width: 1200px;
+/* 4. Overwriting Hero Section (No more sharp gradients) */
+.hero-section {
+  padding: 100px 20px;
+  background: transparent; /* Let the body gradient show through */
 }
 
-/* Navbar */
-.navbar {
-  background-color: #ffffff !important;
+/* 5. The "Squishy" Hero Panel */
+.clay-panel {
+  background: #ffffff;
+  border-radius: 50px;
+  padding: 60px 40px;
+  /* Multi-layered shadows for depth */
+  box-shadow: 
+    20px 20px 60px #d1d9e6,
+    -20px -20px 60px #ffffff,
+    inset -10px -10px 15px rgba(0,0,0,0.02),
+    inset 10px 10px 15px rgba(255,255,255,0.9);
+  transition: transform 0.5s ease;
 }
 
-/* Cards */
-.card {
-  border-radius: 12px !important;
+/* 6. Claymorphic Input (SearchBar) Styling */
+.form-control {
+  border: none !important;
+  background: #f0f4f9 !important;
+  border-radius: 20px !important;
+  padding: 12px 20px !important;
+  box-shadow: 
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9), 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.06) !important;
   transition: all 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.form-control:focus {
+  box-shadow: 
+    inset -2px -2px 4px rgba(255, 255, 255, 0.9), 
+    inset 2px 2px 4px rgba(108, 99, 255, 0.2) !important;
 }
 
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(135deg, #0d6efd, #4dabf7);
-  color: white;
-  padding: 80px 20px;
-  text-align: center;
+/* 7. Enhanced Clay Buttons */
+.btn-primary, .clay-button {
+  background: #6c63ff !important;
+  border: none !important;
+  border-radius: 18px !important;
+  font-weight: 600 !important;
+  padding: 12px 25px !important;
+  color: white !important;
+  box-shadow: 
+    8px 8px 16px rgba(108, 99, 255, 0.25),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.2),
+    inset 4px 4px 8px rgba(255, 255, 255, 0.3) !important;
+  transition: all 0.3s ease;
 }
 
-/* Search Bar */
-input.form-control {
-  border-radius: 8px 0 0 8px !important;
+.btn-primary:hover, .clay-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    12px 12px 20px rgba(108, 99, 255, 0.3),
+    inset -2px -2px 5px rgba(0, 0, 0, 0.2),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.3) !important;
 }
 
-.input-group .btn {
-  border-radius: 0 8px 8px 0 !important;
+/* 8. Modern Section Container */
+.section {
+  padding: 80px 0;
 }
 
-/* Buttons */
-.btn-primary {
-  background-color: #0d6efd;
+/* 9. Footer (Matching the Clay Theme) */
+.footer {
+  background: #ffffff;
+  border-radius: 40px 40px 0 0;
+  color: #666;
+  padding: 40px 0;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.03);
+}
+
+/*cards of pharmacy*/
+
+/* The Inner Card Container */
+.clay-card-inner {
+  background: #ffffff;
+  border-radius: 25px;
+  /* Double inset shadow creates the 3D 'clay' volume */
+  box-shadow: 
+    inset -6px -6px 10px rgba(0, 0, 0, 0.05), 
+    inset 6px 6px 10px rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Small pills for medicine names */
+.clay-pill-sm {
+  background: #f0f4f9;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: #555;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0, 0, 0, 0.05), 
+    inset 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+/* Custom Clay Badges */
+.clay-badge-success {
+  background-color: #d1f7e3 !important;
+  color: #1a8a54 !important;
+  box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05);
   border: none;
 }
 
-.btn-primary:hover {
-  background-color: #0b5ed7;
+.clay-badge-muted {
+  background-color: #eeeeee !important;
+  color: #666666 !important;
+  box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05);
 }
 
-/* Section Spacing */
-.section {
-  padding: 60px 0;
+/* Button with a 'pressed' feel on click */
+.clay-button-card {
+  background: #6c63ff;
+  border-radius: 15px;
+  padding: 10px;
+  font-weight: 600;
+  box-shadow: 
+    inset -3px -3px 5px rgba(0, 0, 0, 0.2), 
+    inset 3px 3px 5px rgba(255, 255, 255, 0.2),
+    4px 4px 10px rgba(108, 99, 255, 0.3);
+  transition: all 0.2s ease;
 }
 
-/* Footer */
-.footer {
-  background-color: #212529;
-  color: #ffffff;
-  text-align: center;
-  padding: 20px 0;
+.clay-button-card:hover {
+  background: #5b54e0;
+  transform: scale(0.98);
+  box-shadow: 
+    inset -1px -1px 3px rgba(0, 0, 0, 0.2), 
+    inset 1px 1px 3px rgba(255, 255, 255, 0.2);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 60px 15px;
-  }
+/*nav bar*/
 
-  .card {
-    margin-bottom: 20px;
-  }
+/* Floating Navbar Effect */
+.clay-nav-wrapper {
+  background: transparent !important;
+}
+
+.clay-nav-container {
+  background: #ffffff;
+  border-radius: 50px; /* High rounding for pill shape */
+  border: none;
+  /* Double inset shadow for the clay volume */
+  box-shadow: 
+    inset -6px -6px 10px rgba(0, 0, 0, 0.05), 
+    inset 6px 6px 10px rgba(255, 255, 255, 0.8),
+    0 10px 20px rgba(0, 0, 0, 0.05); /* Soft drop shadow */
+  transition: all 0.3s ease;
+}
+
+/* Nav Link Styling */
+.clay-nav-link {
+  font-weight: 600 !important;
+  color: #555 !important;
+  padding: 8px 16px !important;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.clay-nav-link:hover {
+  background: #f0f4f9;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05);
+  color: #6c63ff !important;
+}
+
+/* Clay Buttons */
+.clay-btn-primary {
+  background: #6c63ff !important;
+  border: none !important;
+  border-radius: 15px !important;
+  font-weight: 600;
+  box-shadow: 
+    inset -3px -3px 5px rgba(0, 0, 0, 0.2), 
+    inset 3px 3px 5px rgba(255, 255, 255, 0.2);
+}
+
+.clay-btn-secondary {
+  background: #e0eafc !important;
+  color: #6c63ff !important;
+  border: none !important;
+  border-radius: 15px !important;
+  font-weight: 600;
+  box-shadow: 
+    inset -3px -3px 5px rgba(0, 0, 0, 0.05), 
+    inset 3px 3px 5px rgba(255, 255, 255, 0.8);
+}
+
+.clay-btn-danger {
+  background: #ff6b6b !important;
+  border: none !important;
+  border-radius: 15px !important;
+  font-weight: 600;
+  box-shadow: 
+    inset -3px -3px 5px rgba(0, 0, 0, 0.2), 
+    inset 3px 3px 5px rgba(255, 255, 255, 0.2);
+}
+
+/* Active State for Mobile Toggle */
+.navbar-toggler:focus {
+  box-shadow: none !important;
+}
+/*search bar*/
+
+/* Background setup */
+.clay-results-bg {
+  background-color: #f0f4f9;
+  min-height: 100vh;
+}
+
+/* Header Panel - soft and inflated */
+.clay-header-panel {
+  background: #ffffff;
+  border-radius: 30px;
+  box-shadow: 
+    inset -8px -8px 12px rgba(0, 0, 0, 0.05), 
+    inset 8px 8px 12px rgba(255, 255, 255, 0.8),
+    10px 10px 20px rgba(0, 0, 0, 0.03);
+}
+
+/* Select/Dropdown Styling */
+.clay-filter-container {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 5px 15px;
+  box-shadow: 
+    inset -4px -4px 8px rgba(0, 0, 0, 0.05), 
+    inset 4px 4px 8px rgba(255, 255, 255, 0.8);
+}
+
+.clay-select {
+  background: transparent !important;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+}
+
+.clay-select:focus {
+  background: transparent;
+}
+
+/* Reusing the general clay card if needed for empty states */
+.clay-card {
+  background: #ffffff;
+  border-radius: 30px;
+  box-shadow: 
+    inset -6px -6px 10px rgba(0, 0, 0, 0.05), 
+    inset 6px 6px 10px rgba(255, 255, 255, 0.8), 
+    15px 15px 30px rgba(0, 0, 0, 0.05);
+}
+
+/*pharmacy details*/
+/* Container Background */
+.clay-details-wrapper {
+  background: radial-gradient(circle at top right, #fdfcfb, #e2ebf0);
+  min-height: 100vh;
+}
+
+/* Header Panel - Floating Volume */
+.clay-header-panel {
+  background: #ffffff;
+  border-radius: 40px;
+  box-shadow: 
+    25px 25px 50px #d1d9e6, 
+    -25px -25px 50px #ffffff,
+    inset -8px -8px 12px rgba(0,0,0,0.02);
+}
+
+/* Info Pills */
+.clay-info-pill {
+  background: #f8fafc;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  color: #64748b;
+  box-shadow: 
+    inset -3px -3px 6px rgba(0,0,0,0.05), 
+    inset 3px 3px 6px rgba(255,255,255,0.8);
+}
+
+/* Medicine Section Panel */
+.clay-medicine-panel {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 40px;
+  border: 2px solid #ffffff;
+}
+
+/* Individual Medicine Card */
+.clay-med-card {
+  padding: 25px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.clay-med-available {
+  background: #ffffff;
+  box-shadow: 
+    15px 15px 30px #d1d9e6, 
+    -15px -15px 30px #ffffff,
+    inset -5px -5px 10px rgba(25, 135, 84, 0.05);
+}
+
+.clay-med-empty {
+  background: #f1f5f9;
+  opacity: 0.8;
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Success Button */
+.clay-btn-success {
+  background: #22c55e !important;
+  border: none !important;
+  border-radius: 25px !important;
+  font-weight: 700 !important;
+  box-shadow: 
+    8px 8px 20px rgba(34, 197, 94, 0.3),
+    inset -4px -4px 8px rgba(0,0,0,0.1),
+    inset 4px 4px 8px rgba(255,255,255,0.2) !important;
+}
+
+/* Map Container Styling */
+.clay-map-container {
+  background: #ffffff;
+  border-radius: 40px;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+
+.clay-map-inner {
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.1);
+}
+
+/* Custom Badges */
+.clay-badge-green { background-color: #dcfce7 !important; color: #166534 !important; }
+.clay-badge-red { background-color: #fee2e2 !important; color: #991b1b !important; }
+
+/* Animation */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/*map view*/
+
+/* The main container panel */
+.clay-map-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 45px;
+  box-shadow: 
+    20px 20px 60px #d1d9e6, 
+    -20px -20px 60px #ffffff;
+  transition: transform 0.3s ease;
+}
+
+/* The frame around the map (simulating a device bezel) */
+.clay-map-outer-frame {
+  background: #f0f4f9;
+  border-radius: 35px;
+  box-shadow: 
+    inset -6px -6px 12px rgba(255, 255, 255, 1), 
+    inset 6px 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* The actual "screen" clip */
+.clay-map-inner-screen {
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  /* Ensures the iframe corners are rounded */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* Live Indicator Badge */
+.clay-live-indicator {
+  background: #ffffff;
+  padding: 6px 15px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #166534;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 
+    inset -2px -2px 4px rgba(0, 0, 0, 0.05), 
+    inset 2px 2px 4px rgba(255, 255, 255, 0.8);
+}
+
+.clay-live-indicator .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/*auth design*/
+/* Auth Wrapper Background */
+.clay-auth-wrapper {
+  background: radial-gradient(circle at center, #fdfcfb, #e2ebf0);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* The Auth Card */
+.clay-auth-card {
+  background: #ffffff;
+  border-radius: 40px !important;
+  border: none !important;
+  box-shadow: 
+    30px 30px 60px #d1d9e6, 
+    -30px -30px 60px #ffffff,
+    inset -5px -5px 10px rgba(0,0,0,0.02);
+}
+
+/* Form Labels */
+.clay-label {
+  font-weight: 600;
+  color: #555;
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
+
+/* Carved-in Inputs */
+.clay-input {
+  background: #f0f4f8 !important;
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 12px 20px !important;
+  box-shadow: 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.08), 
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.3s ease;
+}
+
+.clay-input:focus {
+  box-shadow: 
+    inset 2px 2px 4px rgba(108, 99, 255, 0.2), 
+    inset -2px -2px 4px rgba(255, 255, 255, 0.9) !important;
+  transform: scale(0.99);
+}
+
+/* Pressed Button Effect */
+.clay-btn-auth {
+  background: #6c63ff !important;
+  border: none !important;
+  border-radius: 20px !important;
+  padding: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    8px 8px 16px rgba(108, 99, 255, 0.3),
+    inset -4px -4px 8px rgba(0,0,0,0.2),
+    inset 4px 4px 8px rgba(255,255,255,0.3) !important;
+  transition: 0.2s ease-in-out;
+}
+
+.clay-btn-auth:hover {
+  transform: scale(0.98);
+  filter: brightness(1.1);
+}
+
+.clay-link {
+  color: #6c63ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+/*reservation*/
+/* Background setup */
+.clay-reservations-wrapper {
+  background: radial-gradient(circle at bottom left, #eef2ff, #f8fafc);
+  min-height: 100vh;
+}
+
+/* Header Panel */
+.clay-panel-header {
+  background: #ffffff;
+  border-radius: 35px;
+  box-shadow: 
+    20px 20px 40px #d1d9e6, 
+    -20px -20px 40px #ffffff,
+    inset -5px -5px 10px rgba(0,0,0,0.02);
+}
+
+/* Individual Reservation Card */
+.clay-res-card {
+  background: #ffffff;
+  border-radius: 40px;
+  box-shadow: 
+    15px 15px 30px #d1d9e6, 
+    -15px -15px 30px #ffffff;
+  transition: transform 0.3s ease;
+}
+
+.clay-res-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Status Tray - Carved in look */
+.clay-status-tray {
+  background: #f1f5f9;
+  border-radius: 20px;
+  box-shadow: 
+    inset 4px 4px 8px rgba(0, 0, 0, 0.05), 
+    inset -4px -4px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* Custom Clay Badges */
+.clay-badge-warning { background: #fffbeb !important; color: #b45309 !important; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05); }
+.clay-badge-success { background: #f0fdf4 !important; color: #15803d !important; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05); }
+.clay-badge-secondary { background: #f8fafc !important; color: #64748b !important; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.05); }
+
+/* Smaller Clay Button */
+.clay-btn-sm-outline {
+  background: transparent !important;
+  border: 2px solid #6c63ff !important;
+  color: #6c63ff !important;
+  border-radius: 15px !important;
+  font-weight: 700 !important;
+  padding: 8px 20px !important;
+  font-size: 0.85rem !important;
+  transition: all 0.2s ease;
+}
+
+.clay-btn-sm-outline:hover {
+  background: #6c63ff !important;
+  color: white !important;
+  box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
 }

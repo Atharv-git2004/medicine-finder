@@ -68,3 +68,54 @@ button {
 .shadow-soft {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
+/* Background setup to make glass look good */
+.glass-wrapper {
+  background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+/* Hero Section with a bit of extra depth */
+.hero-section {
+  min-height: 60vh;
+  background: url('https://images.unsplash.com/photo-1586015555751-63bb77f4322a?auto=format&fit=crop&q=80&w=1600') no-repeat center center/cover;
+  position: relative;
+}
+
+/* THE GLASS PANEL */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+}
+
+/* THE GLASS CARDS */
+.glass-card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* GLASS BUTTON */
+.glass-button {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(4px);
+  font-weight: 600;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.5) !important;
+}

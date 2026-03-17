@@ -40,6 +40,8 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+       {/* <Route
+        path="/reservations" element={<Reservations />}/> */}
 
       {/* Fallback Route */}
       <Route path="*" element={<NotFound />} />
