@@ -1,0 +1,95 @@
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f7fa;
+  color: #212529;
+  line-height: 1.6;
+}
+
+/* Links */
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+/* Buttons */
+button {
+  border-radius: 8px !important;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 1200px;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #ffffff !important;
+}
+
+/* Cards */
+.card {
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #0d6efd, #4dabf7);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+/* Search Bar */
+input.form-control {
+  border-radius: 8px 0 0 8px !important;
+}
+
+.input-group .btn {
+  border-radius: 0 8px 8px 0 !important;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Section Spacing */
+.section {
+  padding: 60px 0;
+}
+
+/* Footer */
+.footer {
+  background-color: #212529;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 15px;
+  }
+
+  .card {
+    margin-bottom: 20px;
+  }
+}
