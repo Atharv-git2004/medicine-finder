@@ -119,3 +119,13 @@ button {
 .glass-button:hover {
   background: rgba(255, 255, 255, 0.5) !important;
 }
+.hover-shadow {
+  transition: all 0.3s ease;
+}
+.hover-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+.cursor-pointer {
+  cursor: pointer;
+}

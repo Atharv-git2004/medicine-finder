@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Badge } from "react-bootstrap";
+import { Button, Badge, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { formatDistance } from "../utils/helpers";
 
 const PharmacyCard = ({ pharmacy }) => {
   const navigate = useNavigate();
@@ -18,47 +18,66 @@ const PharmacyCard = ({ pharmacy }) => {
   } = pharmacy;
 
   return (
-    <div className="clay-card-inner h-100 p-4">
-      <div className="d-flex justify-content-between align-items-start mb-3">
-        <h5 className="fw-bold text-primary mb-0">{name}</h5>
-        <Badge 
-          pill 
-          className={available ? "clay-badge-success" : "clay-badge-muted"}
-        >
-          {available ? "Available" : "Out of Stock"}
-        </Badge>
-      </div>
+    <Card className="border-0 shadow-sm rounded-4 h-100 bg-white hover-shadow transition-all">
+      <Card.Body className="p-4 d-flex flex-column">
+        {/* Header: Name and Status */}
+        <div className="d-flex justify-content-between align-items-start mb-2">
+          <h6 className="fw-bold text-dark mb-0" style={{ fontSize: '1.1rem' }}>{name}</h6>
+          <Badge 
+            pill 
+            bg={available ? "success" : "secondary"} 
+            className="px-3 py-2 small fw-bold"
+            style={{ opacity: available ? 1 : 0.7 }}
+          >
+            {available ? "In Stock" : "Out of Stock"}
+          </Badge>
+        </div>
 
-      <p className="text-muted mb-1 small">
-        <span className="me-2">📍</span>{address}
-      </p>
-
-      <p className="text-muted mb-3 small">
-        <span className="me-2">🚶</span>
-        {distance < 1000 ? `${distance} m` : `${(distance / 1000).toFixed(1)} km`}
-      </p>
-
-      {/* Medicines Preview with clay-styled items */}
-      {medicines.length > 0 && (
-        <div className="mb-4">
-          <small className="text-uppercase fw-bold text-muted d-block mb-2" style={{ fontSize: '0.7rem' }}>
-            Stocked Items:
-          </small>
-          <div className="d-flex flex-wrap gap-2">
-            {medicines.slice(0, 2).map((med, index) => (
-              <span key={index} className="clay-pill-sm">{med}</span>
-            ))}
+        {/* Location Info */}
+        <div className="text-muted mb-3 small">
+          <div className="d-flex align-items-center mb-1">
+            <span className="me-2 text-primary">📍</span>
+            <span className="text-truncate">{address}</span>
+          </div>
+          <div className="d-flex align-items-center">
+            <span className="me-2 text-primary">🚗</span>
+            <span>{formatDistance(distance)} away</span>
           </div>
         </div>
-      )}
 
-      <Button
-        className="clay-button-card w-100 border-0"
-        onClick={() => navigate(`/pharmacy/${id}`)}
-      >
-        View Details
-      </Button>
-    </div>
+        {/* Medicines Preview - E-commerce style chips */}
+        {medicines.length > 0 && (
+          <div className="mb-4 mt-auto">
+            <small className="text-uppercase fw-bold text-muted d-block mb-2" style={{ fontSize: '0.65rem', letterSpacing: '0.5px' }}>
+              Commonly Stocked:
+            </small>
+            <div className="d-flex flex-wrap gap-2">
+              {medicines.slice(0, 2).map((med, index) => (
+                <span 
+                  key={index} 
+                  className="badge bg-light text-primary border rounded-pill px-3 py-1 fw-normal"
+                  style={{ fontSize: '0.75rem' }}
+                >
+                  {med}
+                </span>
+              ))}
+              {medicines.length > 2 && (
+                <span className="text-muted small align-self-center">+{medicines.length - 2} more</span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Action Button */}
+        <Button
+          variant={available ? "primary" : "outline-secondary"}
+          className="w-100 rounded-pill fw-bold py-2 mt-2 shadow-sm"
+          onClick={() => navigate(`/pharmacy/${id}`)}
+        >
+          {available ? "Book Medicines" : "View Details"}
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 
