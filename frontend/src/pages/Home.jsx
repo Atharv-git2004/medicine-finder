@@ -14,7 +14,7 @@ const Home = () => {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
-  // Mock data for pharmacies
+  // Mock data for pharmacies     
   const pharmacies = [
     { id: 1, name: "City Care Pharmacy", address: "Main Street, Calicut", distance: 500, available: true, medicines: ["Paracetamol", "Dolo 650", "Amoxicillin"] },
     { id: 2, name: "HealthPlus Pharmacy", address: "Near Bus Stand, Kozhikode", distance: 1200, available: true, medicines: ["Aspirin", "Vitamin C"] },
