@@ -5,8 +5,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import SearchResults from "../pages/SearchResults";
 import PharmacyDetails from "../pages/PharmacyDetails";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Auth from "../pages/Auth";
 import Profile from "../pages/Profile";
 import Reservations from "../pages/Reservations";
 import NotFound from "../pages/NotFound";
@@ -41,8 +40,8 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/search" element={<SearchResults />} />
       <Route path="/pharmacy/:id" element={<PharmacyDetails />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Auth />} />
+      <Route path="/register" element={<Auth />} />
 
       {/* --- 2. Protected User Routes (Customer) --- */}
       <Route element={<ProtectedRoute />}>
