@@ -1,7 +1,9 @@
-import React from "react";
-// Badge fixed in imports
-import { Container, Row, Col, Button, Card, Badge } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Button, Card, Badge, Spinner, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+
+// Services
+import { getDrugs } from "../services/drugService";
 
 // Components
 import SearchBar from "../components/SearchBar";
@@ -10,11 +12,32 @@ import PharmacyCard from "../components/PharmacyCard";
 const Home = () => {
   const navigate = useNavigate();
 
+  // --- API State Management ---
+  const [drugs, setDrugs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // ബാക്ക് എൻഡിൽ നിന്ന് മരുന്നുകളുടെ ഡാറ്റ എടുക്കാൻ
+  useEffect(() => {
+    const fetchDrugsData = async () => {
+      try {
+        const response = await getDrugs();
+        // ബാക്ക് എൻഡിൽ നിന്ന് വരുന്നത് { success: true, data: [...] } എന്ന ഫോർമാറ്റിലാണ്
+        setDrugs(response.data || []);
+      } catch (err) {
+        setError("മരുന്നുകളുടെ വിവരങ്ങൾ ലഭ്യമായില്ല. ദയവായി പിന്നീട് ശ്രമിക്കുക.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDrugsData();
+  }, []);
+
   // Dynamic greeting based on time
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
-  // Mock data for pharmacies     
+  // Mock data for pharmacies (നീ നേരത്തെ കൊടുത്തത്)     
   const pharmacies = [
     { id: 1, name: "City Care Pharmacy", address: "Main Street, Calicut", distance: 500, available: true, medicines: ["Paracetamol", "Dolo 650", "Amoxicillin"] },
     { id: 2, name: "HealthPlus Pharmacy", address: "Near Bus Stand, Kozhikode", distance: 1200, available: true, medicines: ["Aspirin", "Vitamin C"] },
@@ -36,10 +59,10 @@ const Home = () => {
       
       {/* --- TOP PROMO BANNER --- */}
       <div className="bg-primary text-white py-2 text-center small fw-bold shadow-sm">
-        🚀 Get 20% Off on your first booking! Use code: FIRST20
+        🚀 {greeting}! Get 20% Off on your first booking! Use code: FIRST20
       </div>
 
-      {/* --- HERO SECTION WITH IMAGE --- */}
+      {/* --- HERO SECTION --- */}
       <section className="bg-white border-bottom py-5 overflow-hidden">
         <Container>
           <Row className="align-items-center">
@@ -59,7 +82,7 @@ const Home = () => {
                     <SearchBar />
                  </Card>
                  <div className="mt-3 small text-muted">
-                  Trending: <span className="text-primary fw-medium">Dolo 650</span>, <span className="text-primary fw-medium">Insulin</span>, <span className="text-primary fw-medium">Face Mask</span>
+                  Trending: <span className="text-primary fw-medium">Dolo 650</span>, <span className="text-primary fw-medium">Insulin</span>
                 </div>
               </div>
             </Col>
@@ -94,36 +117,70 @@ const Home = () => {
         </Row>
       </Container>
 
-      {/* --- PRESCRIPTION UPLOAD BANNER --- */}
+      {/* --- API DRUG DATA SECTION (REPAIRED) --- */}
+      <Container className="my-5">
+        <div className="d-flex justify-content-between align-items-end mb-4">
+           <h4 className="fw-bold text-dark mb-0">Available Medicines</h4>
+           <Button variant="link" className="text-primary p-0 fw-bold text-decoration-none" onClick={() => navigate("/drugs")}>View All</Button>
+        </div>
+
+        {loading ? (
+          <div className="text-center py-5">
+            <Spinner animation="border" variant="primary" />
+            <p className="mt-3 text-muted">Loading medicines...</p>
+          </div>
+        ) : error ? (
+          <Alert variant="danger">{error}</Alert>
+        ) : (
+          <Row className="g-4">
+            {drugs.slice(0, 4).map((drug) => (
+              <Col md={3} sm={6} key={drug._id}>
+                <Card className="border-0 shadow-sm h-100 rounded-4 p-3 bg-white hover-lift transition-all">
+                  <Badge bg="light" text="primary" className="mb-2 w-auto d-inline-block px-2 py-1">
+                    {drug.category || "General"}
+                  </Badge>
+                  <h5 className="fw-bold text-dark mb-1 text-truncate">{drug.brand_name}</h5>
+                  <p className="text-muted small mb-3">{drug.generic_name}</p>
+                  <div className="mt-auto">
+                    <p className="small text-muted mb-3" style={{ display: "-webkit-box", WebkitLineClamp: "2", WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                      {drug.indications_and_usage || "Click to see usage details."}
+                    </p>
+                    <Button variant="outline-primary" size="sm" className="w-100 rounded-pill fw-bold">
+                      View Details
+                    </Button>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+            {drugs.length === 0 && !loading && (
+              <Col className="text-center py-4">
+                <p className="text-muted">No medicines found in the database.</p>
+              </Col>
+            )}
+          </Row>
+        )}
+      </Container>
+
+      {/* --- PRESCRIPTION BANNER --- */}
       <Container className="my-5">
         <Card className="border-0 shadow-lg rounded-4 overflow-hidden text-white" style={{ background: 'linear-gradient(135deg, #0d6efd 0%, #0a4ebd 100%)' }}>
           <Row className="g-0 align-items-center">
             <Col md={7} className="p-4 p-md-5">
               <h2 className="fw-bold mb-3">Have a Prescription?</h2>
-              <p className="opacity-90 mb-4 fs-5">Upload it here and our experts will help you find the exact medicines in minutes.</p>
+              <p className="opacity-90 mb-4 fs-5">Upload it here and find medicines in minutes.</p>
               <div className="d-flex gap-3 flex-wrap">
-                <Button variant="light" className="px-4 py-2 rounded-pill fw-bold text-primary shadow">
-                  Upload Now 📄
-                </Button>
-                <Button variant="outline-light" className="px-4 py-2 rounded-pill fw-bold border-2">
-                  Learn More
-                </Button>
+                <Button variant="light" className="px-4 py-2 rounded-pill fw-bold text-primary shadow">Upload Now 📄</Button>
               </div>
             </Col>
-            <Col md={5} className="d-none d-md-block">
-               <img 
-                 src="https://img.freepik.com/free-vector/prescription-concept-illustration_114360-8022.jpg" 
-                 alt="Prescription" 
-                 className="img-fluid opacity-90"
-                 style={{ mixBlendMode: 'multiply' }}
-               />
+            <Col md={5} className="d-none d-md-block text-center">
+               <img src="https://cdn-icons-png.flaticon.com/512/822/822118.png" alt="Rx" style={{ width: "200px", opacity: "0.2" }} />
             </Col>
           </Row>
         </Card>
       </Container>
 
       {/* --- PHARMACY LISTING --- */}
-      <section className="py-5 bg-white border-top border-bottom">
+      <section className="py-5 bg-white border-top">
         <Container>
           <div className="text-center mb-5">
              <h3 className="fw-bold text-dark">Pharmacies Near Calicut</h3>
@@ -136,33 +193,18 @@ const Home = () => {
               </Col>
             ))}
           </Row>
-          <div className="text-center mt-5">
-            <Button variant="outline-primary" className="px-5 py-2 rounded-pill fw-bold border-2" onClick={() => navigate("/search")}>
-              Find More Stores
-            </Button>
-          </div>
         </Container>
       </section>
 
-      {/* --- SOCIAL PROOF STATS --- */}
+      {/* --- STATS --- */}
       <Container className="py-5 mb-5">
         <Row className="text-center g-4">
-           <Col xs={6} md={3}>
-              <h2 className="fw-bold text-primary">50k+</h2>
-              <p className="text-muted small mb-0">Monthly Users</p>
-           </Col>
-           <Col xs={6} md={3}>
-              <h2 className="fw-bold text-primary">200+</h2>
-              <p className="text-muted small mb-0">Partner Stores</p>
-           </Col>
-           <Col xs={6} md={3}>
-              <h2 className="fw-bold text-primary">15+</h2>
-              <p className="text-muted small mb-0">Cities Covered</p>
-           </Col>
-           <Col xs={6} md={3}>
-              <h2 className="fw-bold text-primary">4.8/5</h2>
-              <p className="text-muted small mb-0">App Rating</p>
-           </Col>
+           {["50k+", "200+", "15+", "4.8/5"].map((stat, i) => (
+             <Col xs={6} md={3} key={i}>
+                <h2 className="fw-bold text-primary">{stat}</h2>
+                <p className="text-muted small mb-0">{["Users", "Partners", "Cities", "Rating"][i]}</p>
+             </Col>
+           ))}
         </Row>
       </Container>
 
