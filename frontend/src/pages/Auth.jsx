@@ -18,7 +18,7 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuth(); 
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -49,18 +49,27 @@ const Auth = () => {
           return;
         }
 
-        // ✅ SAFE USER DATA
-        const userData = res.data.user || {
-          email: formData.email,
-        };
+        // 🔥 IMPORTANT FIX
+        const userData = res.data.user;
 
-        // ✅ USE CONTEXT (not manual localStorage)
+        if (!userData) {
+          alert("User data missing from backend");
+          return;
+        }
+
+        // ✅ Save to context
         login(userData, res.data.token);
 
         alert("Login successful");
 
-        // ✅ REDIRECT
-        navigate("/");
+        // 🔥 ROLE BASED REDIRECT
+        if (userData.role?.toLowerCase() === "seller") {
+          navigate("/seller");
+        } else if (userData.role?.toLowerCase() === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
 
       } else {
         // ✅ REGISTER
@@ -78,15 +87,14 @@ const Auth = () => {
         console.log("REGISTER RESPONSE:", res);
 
         alert("Registered successfully");
-
-        setIsLogin(true); // switch to login
+        setIsLogin(true);
       }
 
     } catch (err) {
       console.log(err);
 
-      if (err?.data?.message) {
-        alert(err.data.message);
+      if (err?.response?.data?.message) {
+        alert(err.response.data.message);
       } else {
         alert("Something went wrong");
       }
@@ -94,23 +102,26 @@ const Auth = () => {
   };
 
   return (
-    <Container className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: "90vh" }}>
+    <Container
+      className="d-flex align-items-center justify-content-center py-5"
+      style={{ minHeight: "90vh" }}
+    >
       <Row className="w-100 justify-content-center">
         <Col md={6} lg={5}>
           <Card className="shadow-lg rounded-4">
             <Card.Body>
-
               <h3 className="text-center mb-4">
                 {isLogin ? "Login" : "Register"}
               </h3>
 
               <Form onSubmit={handleSubmit}>
-
                 {!isLogin && (
                   <Form.Group className="mb-3">
                     <Form.Label>Username</Form.Label>
                     <InputGroup>
-                      <InputGroup.Text><User size={18} /></InputGroup.Text>
+                      <InputGroup.Text>
+                        <User size={18} />
+                      </InputGroup.Text>
                       <Form.Control
                         type="text"
                         name="username"
@@ -124,7 +135,9 @@ const Auth = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <InputGroup>
-                    <InputGroup.Text><Mail size={18} /></InputGroup.Text>
+                    <InputGroup.Text>
+                      <Mail size={18} />
+                    </InputGroup.Text>
                     <Form.Control
                       type="email"
                       name="email"
@@ -137,7 +150,9 @@ const Auth = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <InputGroup>
-                    <InputGroup.Text><Lock size={18} /></InputGroup.Text>
+                    <InputGroup.Text>
+                      <Lock size={18} />
+                    </InputGroup.Text>
                     <Form.Control
                       type={showPassword ? "text" : "password"}
                       name="password"
@@ -148,7 +163,11 @@ const Auth = () => {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      {showPassword ? (
+                        <EyeOff size={18} />
+                      ) : (
+                        <Eye size={18} />
+                      )}
                     </Button>
                   </InputGroup>
                 </Form.Group>
@@ -168,15 +187,18 @@ const Auth = () => {
                 <Button type="submit" className="w-100">
                   {isLogin ? "Login" : "Register"}
                 </Button>
-
               </Form>
 
               <div className="text-center mt-3">
-                <Button variant="link" onClick={() => setIsLogin(!isLogin)}>
-                  {isLogin ? "Create account" : "Already have account?"}
+                <Button
+                  variant="link"
+                  onClick={() => setIsLogin(!isLogin)}
+                >
+                  {isLogin
+                    ? "Create account"
+                    : "Already have account?"}
                 </Button>
               </div>
-
             </Card.Body>
           </Card>
         </Col>
