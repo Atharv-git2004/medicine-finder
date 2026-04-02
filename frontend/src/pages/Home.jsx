@@ -17,12 +17,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // ബാക്ക് എൻഡിൽ നിന്ന് മരുന്നുകളുടെ ഡാറ്റ എടുക്കാൻ
+  console.log(drugs)
+
+  // Backend URL (Use your backend port)
+  const API_BASE_URL = "http://localhost:3000";
+
+  // Fetch drugs data from backend
   useEffect(() => {
     const fetchDrugsData = async () => {
       try {
         const response = await getDrugs();
-        // ബാക്ക് എൻഡിൽ നിന്ന് വരുന്നത് { success: true, data: [...] } എന്ന ഫോർമാറ്റിലാണ്
         setDrugs(response.data || []);
       } catch (err) {
         setError("മരുന്നുകളുടെ വിവരങ്ങൾ ലഭ്യമായില്ല. ദയവായി പിന്നീട് ശ്രമിക്കുക.");
@@ -33,18 +37,15 @@ const Home = () => {
     fetchDrugsData();
   }, []);
 
-  // Dynamic greeting based on time
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
-  // Mock data for pharmacies (നീ നേരത്തെ കൊടുത്തത്)     
   const pharmacies = [
     { id: 1, name: "City Care Pharmacy", address: "Main Street, Calicut", distance: 500, available: true, medicines: ["Paracetamol", "Dolo 650", "Amoxicillin"] },
     { id: 2, name: "HealthPlus Pharmacy", address: "Near Bus Stand, Kozhikode", distance: 1200, available: true, medicines: ["Aspirin", "Vitamin C"] },
     { id: 3, name: "MedLife Pharmacy", address: "Downtown, Malaparamba", distance: 2000, available: false, medicines: [] },
   ];
 
-  // Categories with high-quality PNG icons
   const categories = [
     { name: "Fever & Pain", img: "https://cdn-icons-png.flaticon.com/512/2864/2864448.png" },
     { name: "Diabetes", img: "https://cdn-icons-png.flaticon.com/512/2750/2750657.png" },
@@ -81,9 +82,6 @@ const Home = () => {
                  <Card className="border-0 shadow-lg rounded-4 p-2 bg-white">
                     <SearchBar />
                  </Card>
-                 <div className="mt-3 small text-muted">
-                  Trending: <span className="text-primary fw-medium">Dolo 650</span>, <span className="text-primary fw-medium">Insulin</span>
-                </div>
               </div>
             </Col>
             
@@ -117,7 +115,7 @@ const Home = () => {
         </Row>
       </Container>
 
-      {/* --- API DRUG DATA SECTION (REPAIRED) --- */}
+      {/* --- AVAILABLE MEDICINES (API DATA) --- */}
       <Container className="my-5">
         <div className="d-flex justify-content-between align-items-end mb-4">
            <h4 className="fw-bold text-dark mb-0">Available Medicines</h4>
@@ -135,20 +133,33 @@ const Home = () => {
           <Row className="g-4">
             {drugs.slice(0, 4).map((drug) => (
               <Col md={3} sm={6} key={drug._id}>
-                <Card className="border-0 shadow-sm h-100 rounded-4 p-3 bg-white hover-lift transition-all">
-                  <Badge bg="light" text="primary" className="mb-2 w-auto d-inline-block px-2 py-1">
-                    {drug.category || "General"}
-                  </Badge>
-                  <h5 className="fw-bold text-dark mb-1 text-truncate">{drug.brand_name}</h5>
-                  <p className="text-muted small mb-3">{drug.generic_name}</p>
-                  <div className="mt-auto">
-                    <p className="small text-muted mb-3" style={{ display: "-webkit-box", WebkitLineClamp: "2", WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                      {drug.indications_and_usage || "Click to see usage details."}
-                    </p>
-                    <Button variant="outline-primary" size="sm" className="w-100 rounded-pill fw-bold">
-                      View Details
-                    </Button>
+                <Card className="border-0 shadow-sm h-100 rounded-4 p-0 bg-white hover-lift transition-all overflow-hidden">
+                  
+                  {/* Medicine Image */}
+                  <div style={{ height: "180px", backgroundColor: "#f8f9fa" }}>
+                    <img 
+                      src={drug.image 
+                        ? (drug.image.startsWith('http') ? drug.image : `${API_BASE_URL}${drug.image}`) 
+                        : "https://via.placeholder.com/300x200?text=No+Image"
+                      } 
+                      alt={drug.brand_name} 
+                      className="w-100 h-100 object-fit-cover"
+                    />
                   </div>
+
+                  <Card.Body className="p-3 d-flex flex-column">
+                    <Badge bg="light" text="primary" className="mb-2 w-auto d-inline-block px-2 py-1 align-self-start">
+                      {drug.category || "General"}
+                    </Badge>
+                    <h5 className="fw-bold text-dark mb-1 text-truncate">{drug.brand_name}</h5>
+                    <p className="text-muted small mb-3 text-truncate">{drug.generic_name}</p>
+                    
+                    <div className="mt-auto">
+                      <Button variant="outline-primary" size="sm" className="w-100 rounded-pill fw-bold">
+                        View Details
+                      </Button>
+                    </div>
+                  </Card.Body>
                 </Card>
               </Col>
             ))}
@@ -168,12 +179,7 @@ const Home = () => {
             <Col md={7} className="p-4 p-md-5">
               <h2 className="fw-bold mb-3">Have a Prescription?</h2>
               <p className="opacity-90 mb-4 fs-5">Upload it here and find medicines in minutes.</p>
-              <div className="d-flex gap-3 flex-wrap">
-                <Button variant="light" className="px-4 py-2 rounded-pill fw-bold text-primary shadow">Upload Now 📄</Button>
-              </div>
-            </Col>
-            <Col md={5} className="d-none d-md-block text-center">
-               <img src="https://cdn-icons-png.flaticon.com/512/822/822118.png" alt="Rx" style={{ width: "200px", opacity: "0.2" }} />
+              <Button variant="light" className="px-4 py-2 rounded-pill fw-bold text-primary shadow">Upload Now 📄</Button>
             </Col>
           </Row>
         </Card>
@@ -197,7 +203,7 @@ const Home = () => {
       </section>
 
       {/* --- STATS --- */}
-      <Container className="py-5 mb-5">
+      <Container className="py-5 mb-5 border-top">
         <Row className="text-center g-4">
            {["50k+", "200+", "15+", "4.8/5"].map((stat, i) => (
              <Col xs={6} md={3} key={i}>
