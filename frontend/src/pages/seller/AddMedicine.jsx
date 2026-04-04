@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Container, Card, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+// 1. Import the service function (adjust the path to your service file)
+import { addDrug } from "../../services/drugService"; 
 import { 
   ChevronLeft, 
   Save, 
@@ -13,6 +15,7 @@ import {
 
 const AddMedicine = () => {
   const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     name: "",
     category: "General",
@@ -23,6 +26,7 @@ const AddMedicine = () => {
   });
 
   const [image, setImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,25 +34,51 @@ const AddMedicine = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
       setImage(URL.createObjectURL(e.target.files[0]));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Preparing data for API call
-    const finalData = { ...formData, image };
-    console.log("Submitting Medicine Data:", finalData);
+    // Prepare FormData
+    const data = new FormData();
+    data.append("brand_name", formData.name); 
+    data.append("category", formData.category);
+    data.append("price", formData.price);
+    data.append("stock", formData.stock);
+    data.append("expiryDate", formData.expiryDate);
+    data.append("description", formData.description);
+    
+    if (selectedFile) {
+      data.append("image", selectedFile);
+    }
 
-    // Show success message and navigate
-    alert("Medicine added successfully!");
-    navigate("/seller/inventory"); 
+    try {
+      const token = localStorage.getItem("token"); 
+      
+      // 2. Call your pre-defined service function
+      // It handles the axios call and the authorization header for you
+    await addDrug(data, token);
+     
+      
+      
+      
+
+      alert("Medicine added successfully!");
+      navigate("/seller/inventory");
+      
+    } catch (error) {
+      console.error("Submission failed", error);
+      // Axios error handling to show backend message or fallback
+      const errorMessage = error.response?.data?.message || "Something went wrong";
+      alert("Error: " + errorMessage);
+    }
   };
 
   return (
     <Container fluid className="py-4 px-md-5">
-      {/* --- Back Button --- */}
       <Button 
         variant="link" 
         className="text-decoration-none text-muted p-0 mb-3 d-flex align-items-center gap-1"
@@ -67,7 +97,6 @@ const AddMedicine = () => {
           <Col lg={8}>
             <Card className="border-0 shadow-sm rounded-4 p-4 mb-4">
               <Row>
-                {/* Medicine Name */}
                 <Col md={12} className="mb-4">
                   <Form.Group>
                     <Form.Label className="fw-bold small mb-2 text-uppercase text-muted">Medicine Name</Form.Label>
@@ -88,7 +117,6 @@ const AddMedicine = () => {
                   </Form.Group>
                 </Col>
 
-                {/* Category & Price */}
                 <Col md={6} className="mb-4">
                   <Form.Group>
                     <Form.Label className="fw-bold small mb-2 text-uppercase text-muted">Category</Form.Label>
@@ -130,7 +158,6 @@ const AddMedicine = () => {
                   </Form.Group>
                 </Col>
 
-                {/* Stock & Expiry */}
                 <Col md={6} className="mb-4">
                   <Form.Group>
                     <Form.Label className="fw-bold small mb-2 text-uppercase text-muted">Stock Count</Form.Label>
@@ -165,7 +192,6 @@ const AddMedicine = () => {
                   </Form.Group>
                 </Col>
 
-                {/* Description */}
                 <Col md={12} className="mb-2">
                   <Form.Group>
                     <Form.Label className="fw-bold small mb-2 text-uppercase text-muted">Description</Form.Label>
@@ -201,7 +227,6 @@ const AddMedicine = () => {
             </div>
           </Col>
 
-          {/* Right Sidebar - Image Upload */}
           <Col lg={4}>
             <Card className="border-0 shadow-sm rounded-4 p-4 mb-4 text-center border">
               <Form.Label className="fw-bold small mb-3 text-uppercase d-block text-start text-muted">Medicine Photo</Form.Label>
