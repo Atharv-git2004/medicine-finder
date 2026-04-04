@@ -15,6 +15,7 @@ app.use(express.json())
 
 app.use("/",route)
 app.use("/med",medroute)
+app.use('/uploads', express.static('uploads'));
 
 app.listen(3000,()=>{
     console.log("server running on port 3000");
